@@ -1,0 +1,5 @@
+#ignore al debug
+*bin/
+*obj/
+*.vs/
+*class/
