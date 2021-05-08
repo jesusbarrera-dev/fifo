@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="pictureBox1.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+  <data name="Background" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAABM4AAAK5CAYAAABHfmIWAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
         wwAADsMBx2+oZAAA/7JJREFUeF7svXWgXcd1729mdqhJSmFo2pem+Ev72te+tq99bbht0jZtksaJScxg
@@ -21391,7 +21391,7 @@
         wcBz+GB/HoMAAAAASUVORK5CYII=
 </value>
   </data>
-  <data name="pictureBox2.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+  <data name="Horse" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAA4EAAALQCAYAAAAuD3UqAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
         YQUAAP+6SURBVHhe7L0FeCNpdu5vC8zMLDMzsy2wJNuNw8zcMz3TjLabe3CHZ7qnmRmmh2chG6a7N8lN
@@ -23510,7 +23510,7 @@
         UaZwZ5uP/7PxYxiGYZh9QV3d/w+x9LS3orRy1QAAAABJRU5ErkJggg==
 </value>
   </data>
-  <data name="pictureBox3.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+  <!--<data name="pictureBox3.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAA4EAAALQCAYAAAAuD3UqAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
         YQUAAP+6SURBVHhe7L0FeCNpdu5vC8zMLDMzsy2wJNuNw8zcMz3TjLabe3CHZ7qnmRmmh2chG6a7N8lN
@@ -27747,5 +27747,5 @@
         Tij6+j9JmB1uJSnY/DEMw+wfSg2hlSks3fmhQHhvPJfDfDMMwzDMHkcFD3iA9FESIsmVmj8O+MIwDLP/
         UaZwZ5uP/7PxYxiGYZh9QV3d/w+x9LS3orRy1QAAAABJRU5ErkJggg==
 </value>
-  </data>
+  </data>-->
 </root>
