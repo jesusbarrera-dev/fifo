@@ -18,6 +18,13 @@ namespace FCFS
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new Form1());
+            //Thread init
+            Thread thread1 = new Thread(ThreadWork.DoWork); thread1.Start();
+            for (int i = 0; i < 3; i++)
+            {
+                Console.WriteLine("In main.");
+                Thread.Sleep(100);
+            }
         }
     }
     public class ThreadWork
@@ -30,7 +37,7 @@ namespace FCFS
                 }
             }
         }
-    class ThreadTest
+    /*class ThreadTest
     {
         public static void Main()
         {
@@ -41,5 +48,5 @@ namespace FCFS
                 Thread.Sleep(100);
             }
         }
-    }
+    }*/
 }

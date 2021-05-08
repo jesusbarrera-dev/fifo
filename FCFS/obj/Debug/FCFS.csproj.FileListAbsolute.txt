@@ -1,0 +1,10 @@
+C:\Users\chuya\Documents\Universidad\7mo\Sistemas operativos\Actividad_4\FCFS\obj\Debug\FCFS.csprojAssemblyReference.cache
+C:\Users\chuya\Documents\Universidad\7mo\Sistemas operativos\Actividad_4\FCFS\obj\Debug\FCFS.Properties.Resources.resources
+C:\Users\chuya\Documents\Universidad\7mo\Sistemas operativos\Actividad_4\FCFS\obj\Debug\FCFS.csproj.GenerateResource.cache
+C:\Users\chuya\Documents\Universidad\7mo\Sistemas operativos\Actividad_4\FCFS\obj\Debug\FCFS.csproj.CoreCompileInputs.cache
+C:\Users\chuya\Documents\Universidad\7mo\Sistemas operativos\Actividad_4\FCFS\bin\Debug\FCFS.exe.config
+C:\Users\chuya\Documents\Universidad\7mo\Sistemas operativos\Actividad_4\FCFS\bin\Debug\FCFS.exe
+C:\Users\chuya\Documents\Universidad\7mo\Sistemas operativos\Actividad_4\FCFS\bin\Debug\FCFS.pdb
+C:\Users\chuya\Documents\Universidad\7mo\Sistemas operativos\Actividad_4\FCFS\obj\Debug\FCFS.exe
+C:\Users\chuya\Documents\Universidad\7mo\Sistemas operativos\Actividad_4\FCFS\obj\Debug\FCFS.pdb
+C:\Users\chuya\Documents\Universidad\7mo\Sistemas operativos\Actividad_4\FCFS\obj\Debug\FCFS.Form1.resources
