@@ -42,12 +42,17 @@ namespace Practica
             this.chart1.Series.Clear();
 
             this.chart1.Palette = ChartColorPalette.SeaGreen;
-            this.chart1.Titles.Add("Ventas");
+            //this.chart1.Titles.Add("Ventas");
             for (int i = 0; i < conjunto.Length; i++)
             {
                 series = this.chart1.Series.Add(datos[i]);
                 series.Points.Add(conjunto[i]);
             }
+        }
+
+        private void label8_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

@@ -3,3 +3,8 @@
 *obj/
 *.vs/
 *class/
+
+Practica/bin/
+Practica/obj/
+Practica/.vs/
+Practica/class/
