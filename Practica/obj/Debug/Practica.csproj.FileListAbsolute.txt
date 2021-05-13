@@ -1,0 +1,10 @@
+C:\Users\chuya\Documents\Universidad\7mo\Sistemas operativos\Practica1\Practica\bin\Debug\Practica.exe.config
+C:\Users\chuya\Documents\Universidad\7mo\Sistemas operativos\Practica1\Practica\bin\Debug\Practica.exe
+C:\Users\chuya\Documents\Universidad\7mo\Sistemas operativos\Practica1\Practica\bin\Debug\Practica.pdb
+C:\Users\chuya\Documents\Universidad\7mo\Sistemas operativos\Practica1\Practica\obj\Debug\Practica.csprojAssemblyReference.cache
+C:\Users\chuya\Documents\Universidad\7mo\Sistemas operativos\Practica1\Practica\obj\Debug\Practica.Form1.resources
+C:\Users\chuya\Documents\Universidad\7mo\Sistemas operativos\Practica1\Practica\obj\Debug\Practica.Properties.Resources.resources
+C:\Users\chuya\Documents\Universidad\7mo\Sistemas operativos\Practica1\Practica\obj\Debug\Practica.csproj.GenerateResource.cache
+C:\Users\chuya\Documents\Universidad\7mo\Sistemas operativos\Practica1\Practica\obj\Debug\Practica.csproj.CoreCompileInputs.cache
+C:\Users\chuya\Documents\Universidad\7mo\Sistemas operativos\Practica1\Practica\obj\Debug\Practica.exe
+C:\Users\chuya\Documents\Universidad\7mo\Sistemas operativos\Practica1\Practica\obj\Debug\Practica.pdb
