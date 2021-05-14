@@ -29,9 +29,9 @@ namespace Practica
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.btnStart = new System.Windows.Forms.Button();
             this.cpuLabel = new System.Windows.Forms.Label();
@@ -53,37 +53,37 @@ namespace Practica
             this.label9 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
+            this.btnRestartProcesses = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
             this.SuspendLayout();
             // 
             // chart1
             // 
             this.chart1.BackColor = System.Drawing.Color.Transparent;
-            chartArea1.Name = "ChartArea1";
-            this.chart1.ChartAreas.Add(chartArea1);
-            legend1.Enabled = false;
-            legend1.Name = "Legend1";
-            this.chart1.Legends.Add(legend1);
+            chartArea2.Name = "ChartArea1";
+            this.chart1.ChartAreas.Add(chartArea2);
+            legend2.Enabled = false;
+            legend2.Name = "Legend1";
+            this.chart1.Legends.Add(legend2);
             this.chart1.Location = new System.Drawing.Point(12, 12);
             this.chart1.Name = "chart1";
-            series1.ChartArea = "ChartArea1";
-            series1.Legend = "Legend1";
-            series1.Name = "Series1";
-            this.chart1.Series.Add(series1);
+            series2.ChartArea = "ChartArea1";
+            series2.Legend = "Legend1";
+            series2.Name = "Series1";
+            this.chart1.Series.Add(series2);
             this.chart1.Size = new System.Drawing.Size(776, 164);
             this.chart1.TabIndex = 0;
             this.chart1.Text = "chart1";
-            this.chart1.Click += new System.EventHandler(this.chart1_Click);
             // 
             // btnStart
             // 
-            this.btnStart.Location = new System.Drawing.Point(662, 394);
+            this.btnStart.Location = new System.Drawing.Point(673, 394);
             this.btnStart.Name = "btnStart";
             this.btnStart.Size = new System.Drawing.Size(75, 23);
             this.btnStart.TabIndex = 1;
             this.btnStart.Text = "Iniciar";
             this.btnStart.UseVisualStyleBackColor = true;
-            this.btnStart.Click += new System.EventHandler(this.btnOrdenar_Click);
+            this.btnStart.Click += new System.EventHandler(this.BtnStart_Click);
             // 
             // cpuLabel
             // 
@@ -186,7 +186,6 @@ namespace Practica
             this.cpuBussyLabel.Size = new System.Drawing.Size(13, 13);
             this.cpuBussyLabel.TabIndex = 13;
             this.cpuBussyLabel.Text = "0";
-            this.cpuBussyLabel.Click += new System.EventHandler(this.label8_Click);
             // 
             // rtMinLabel
             // 
@@ -264,11 +263,22 @@ namespace Practica
             this.label11.TabIndex = 21;
             this.label11.Text = "Ejecutando";
             // 
+            // btnRestartProcesses
+            // 
+            this.btnRestartProcesses.Location = new System.Drawing.Point(557, 394);
+            this.btnRestartProcesses.Name = "btnRestartProcesses";
+            this.btnRestartProcesses.Size = new System.Drawing.Size(110, 23);
+            this.btnRestartProcesses.TabIndex = 22;
+            this.btnRestartProcesses.Text = "Reinicar Procesos";
+            this.btnRestartProcesses.UseVisualStyleBackColor = true;
+            this.btnRestartProcesses.Click += new System.EventHandler(this.btnRestartProcesses_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.btnRestartProcesses);
             this.Controls.Add(this.label11);
             this.Controls.Add(this.label10);
             this.Controls.Add(this.label9);
@@ -292,7 +302,7 @@ namespace Practica
             this.Controls.Add(this.chart1);
             this.Name = "Form1";
             this.Text = "Form1";
-            this.Load += new System.EventHandler(this.Form1_Load);
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ActionFormClosing);
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -322,6 +332,7 @@ namespace Practica
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.Button btnRestartProcesses;
     }
 }
 
