@@ -189,7 +189,6 @@ namespace Practica
             int avgTime = 0;
             int desvTime = 0;
             int maxTime = responseTime;
-            // TODO Desviación estandar
 
             foreach (int time in this.responseTimes)
             {
