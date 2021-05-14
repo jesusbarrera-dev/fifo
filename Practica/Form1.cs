@@ -120,6 +120,7 @@ namespace Practica
                     }
 
                     this.Invoke(cbChart, p, Color.Red);
+                    
                 }
 
                 Thread.Sleep(UNIT_TIME);
