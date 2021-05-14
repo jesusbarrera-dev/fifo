@@ -94,6 +94,7 @@ namespace Practica
         {
             Queue<Process> queue = new Queue<Process>();
             Process p;
+
             UpdateProcessInChartCallback cbChart = new UpdateProcessInChartCallback(this.UpdateProcessInChart);
             UpdateResponseTimeCallback cbResponse = new UpdateResponseTimeCallback(this.UpdateResponseTime);
             UpdateTurnaroundTimeCallback cbTurnaround = new UpdateTurnaroundTimeCallback(this.UpdateTurnaroundTime);
@@ -160,7 +161,7 @@ namespace Practica
                         queue.Enqueue(p); // Proceso encolado
 
                         // Tiempo en que se encolará nuevo proceso entre 100 a 1400 ms
-                        timeToNewProcess = actualTime + rand.Next(1, MAX_EXECUTION_TIME) * UNIT_TIME; 
+                        timeToNewProcess = actualTime + rand.Next(1, MAX_SCHEDULE_TIME) * UNIT_TIME;
                     }
                 }
             }
@@ -186,6 +187,7 @@ namespace Practica
 
             int minTime = responseTime;
             int avgTime = 0;
+            int desvTime = 0;
             int maxTime = responseTime;
             // TODO Desviación estandar
 
@@ -205,11 +207,17 @@ namespace Practica
             }
 
             avgTime /= this.responseTimes.Count;
+            foreach (int time in this.responseTimes)
+            {
+                desvTime += (int)Math.Pow(time - avgTime, 2);
+            }
+            desvTime = (int)Math.Sqrt(desvTime / this.responseTimes.Count);
 
             // Actualización de la interfaz
-            // TODO Mostrar promedio y desviacion
-            this.rtMinLabel.Text = minTime.ToString();
-            this.rtMaxLabel.Text = maxTime.ToString();
+            this.rtMinLabel.Text = minTime.ToString() + " ms";
+            this.rtAvgLabel.Text = avgTime.ToString() + " ms";
+            this.rtDesvLabel.Text = desvTime.ToString() + " ms";
+            this.rtMaxLabel.Text = maxTime.ToString() + " ms";
         }
 
         private void UpdateTurnaroundTime(int turnaroundTime)
@@ -219,7 +227,7 @@ namespace Practica
             int minTime = turnaroundTime;
             int avgTime = 0;
             int maxTime = turnaroundTime;
-            // TODO Desviación estandar
+            int desvTime = 0;
 
             foreach (int time in this.turnaroundTimes) {
                 avgTime += time;
@@ -236,19 +244,25 @@ namespace Practica
             }
 
             avgTime /= this.turnaroundTimes.Count;
+            foreach (int time in this.turnaroundTimes)
+            {
+                desvTime += (int) Math.Pow(time - avgTime, 2);
+            }
+            desvTime = (int) Math.Sqrt(desvTime / this.turnaroundTimes.Count);
 
             // Actualización de la interfaz
-            // TODO Mostrar promedio y desviacion
-            this.taMinLabel.Text = minTime.ToString();
-            this.taMaxLabel.Text = maxTime.ToString();
+            this.taMinLabel.Text = minTime.ToString() + " ms";
+            this.taAvgLabel.Text = avgTime.ToString() + " ms";
+            this.taDesvLabel.Text = desvTime.ToString() + " ms";
+            this.taMaxLabel.Text = maxTime.ToString() + " ms";
         }
 
         private void UpdateCpuTime()
         {
-            this.cpuTimeLabel.Text = this.actualTime.ToString();
-            this.cpuBussyLabel.Text = (this.actualTime - this.idleTime).ToString();
-            // TODO Idle Time
-            // this.cpuIdleLabel.Text = this.idleTime.ToString();
+            this.cpuTimeLabel.Text = this.actualTime.ToString() + " ms";
+            this.labelIdleCpu.Text = this.idleTime.ToString() + " ms";
+            this.cpuBussyLabel.Text = (this.actualTime - this.idleTime).ToString() + " ms";
+            
         }
 
         delegate void UpdateProcessInChartCallback(Process p, Color c);
@@ -267,12 +281,17 @@ namespace Practica
             this.turnaroundTimes.Clear();
 
             // Limpiar todas las etiquetas
-            this.taMinLabel.Text = "0";
-            this.taMaxLabel.Text = "0";
-            this.rtMinLabel.Text = "0";
-            this.rtMaxLabel.Text = "0";
-            this.cpuTimeLabel.Text = "0";
-            this.cpuBussyLabel.Text = "0";
+            this.taMinLabel.Text = "0 ms";
+            this.taAvgLabel.Text = "0 ms";
+            this.taDesvLabel.Text = "0 ms";
+            this.taMaxLabel.Text = "0 ms";
+            this.rtMinLabel.Text = "0 ms";
+            this.rtDesvLabel.Text = "0 ms";
+            this.rtAvgLabel.Text = "0 ms";
+            this.rtMaxLabel.Text = "0 ms";
+            this.cpuTimeLabel.Text = "0 ms";
+            this.labelIdleCpu.Text = "0 ms";
+            this.cpuBussyLabel.Text = "0 ms";
         }
     }
 }

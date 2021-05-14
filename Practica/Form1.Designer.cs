@@ -29,9 +29,9 @@ namespace Practica
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.btnStart = new System.Windows.Forms.Button();
             this.cpuLabel = new System.Windows.Forms.Label();
@@ -54,23 +54,33 @@ namespace Practica
             this.label10 = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
             this.btnRestartProcesses = new System.Windows.Forms.Button();
+            this.label1 = new System.Windows.Forms.Label();
+            this.labelIdleCpu = new System.Windows.Forms.Label();
+            this.label12 = new System.Windows.Forms.Label();
+            this.rtAvgLabel = new System.Windows.Forms.Label();
+            this.label13 = new System.Windows.Forms.Label();
+            this.taAvgLabel = new System.Windows.Forms.Label();
+            this.label14 = new System.Windows.Forms.Label();
+            this.rtDesvLabel = new System.Windows.Forms.Label();
+            this.label15 = new System.Windows.Forms.Label();
+            this.taDesvLabel = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
             this.SuspendLayout();
             // 
             // chart1
             // 
             this.chart1.BackColor = System.Drawing.Color.Transparent;
-            chartArea2.Name = "ChartArea1";
-            this.chart1.ChartAreas.Add(chartArea2);
-            legend2.Enabled = false;
-            legend2.Name = "Legend1";
-            this.chart1.Legends.Add(legend2);
+            chartArea1.Name = "ChartArea1";
+            this.chart1.ChartAreas.Add(chartArea1);
+            legend1.Enabled = false;
+            legend1.Name = "Legend1";
+            this.chart1.Legends.Add(legend1);
             this.chart1.Location = new System.Drawing.Point(12, 12);
             this.chart1.Name = "chart1";
-            series2.ChartArea = "ChartArea1";
-            series2.Legend = "Legend1";
-            series2.Name = "Series1";
-            this.chart1.Series.Add(series2);
+            series1.ChartArea = "ChartArea1";
+            series1.Legend = "Legend1";
+            series1.Name = "Series1";
+            this.chart1.Series.Add(series1);
             this.chart1.Size = new System.Drawing.Size(776, 164);
             this.chart1.TabIndex = 0;
             this.chart1.Text = "chart1";
@@ -174,54 +184,54 @@ namespace Practica
             this.cpuTimeLabel.AutoSize = true;
             this.cpuTimeLabel.Location = new System.Drawing.Point(180, 259);
             this.cpuTimeLabel.Name = "cpuTimeLabel";
-            this.cpuTimeLabel.Size = new System.Drawing.Size(13, 13);
+            this.cpuTimeLabel.Size = new System.Drawing.Size(29, 13);
             this.cpuTimeLabel.TabIndex = 12;
-            this.cpuTimeLabel.Text = "0";
+            this.cpuTimeLabel.Text = "0 ms";
             // 
             // cpuBussyLabel
             // 
             this.cpuBussyLabel.AutoSize = true;
             this.cpuBussyLabel.Location = new System.Drawing.Point(180, 306);
             this.cpuBussyLabel.Name = "cpuBussyLabel";
-            this.cpuBussyLabel.Size = new System.Drawing.Size(13, 13);
+            this.cpuBussyLabel.Size = new System.Drawing.Size(29, 13);
             this.cpuBussyLabel.TabIndex = 13;
-            this.cpuBussyLabel.Text = "0";
+            this.cpuBussyLabel.Text = "0 ms";
             // 
             // rtMinLabel
             // 
             this.rtMinLabel.AutoSize = true;
-            this.rtMinLabel.Location = new System.Drawing.Point(404, 259);
+            this.rtMinLabel.Location = new System.Drawing.Point(388, 260);
             this.rtMinLabel.Name = "rtMinLabel";
-            this.rtMinLabel.Size = new System.Drawing.Size(13, 13);
+            this.rtMinLabel.Size = new System.Drawing.Size(29, 13);
             this.rtMinLabel.TabIndex = 14;
-            this.rtMinLabel.Text = "0";
+            this.rtMinLabel.Text = "0 ms";
             // 
             // rtMaxLabel
             // 
             this.rtMaxLabel.AutoSize = true;
-            this.rtMaxLabel.Location = new System.Drawing.Point(406, 312);
+            this.rtMaxLabel.Location = new System.Drawing.Point(388, 307);
             this.rtMaxLabel.Name = "rtMaxLabel";
-            this.rtMaxLabel.Size = new System.Drawing.Size(13, 13);
+            this.rtMaxLabel.Size = new System.Drawing.Size(29, 13);
             this.rtMaxLabel.TabIndex = 15;
-            this.rtMaxLabel.Text = "0";
+            this.rtMaxLabel.Text = "0 ms";
             // 
             // taMinLabel
             // 
             this.taMinLabel.AutoSize = true;
-            this.taMinLabel.Location = new System.Drawing.Point(638, 260);
+            this.taMinLabel.Location = new System.Drawing.Point(611, 259);
             this.taMinLabel.Name = "taMinLabel";
-            this.taMinLabel.Size = new System.Drawing.Size(13, 13);
+            this.taMinLabel.Size = new System.Drawing.Size(29, 13);
             this.taMinLabel.TabIndex = 16;
-            this.taMinLabel.Text = "0";
+            this.taMinLabel.Text = "0 ms";
             // 
             // taMaxLabel
             // 
             this.taMaxLabel.AutoSize = true;
-            this.taMaxLabel.Location = new System.Drawing.Point(638, 306);
+            this.taMaxLabel.Location = new System.Drawing.Point(611, 307);
             this.taMaxLabel.Name = "taMaxLabel";
-            this.taMaxLabel.Size = new System.Drawing.Size(13, 13);
+            this.taMaxLabel.Size = new System.Drawing.Size(29, 13);
             this.taMaxLabel.TabIndex = 17;
-            this.taMaxLabel.Text = "0";
+            this.taMaxLabel.Text = "0 ms";
             // 
             // label8
             // 
@@ -273,11 +283,111 @@ namespace Practica
             this.btnRestartProcesses.UseVisualStyleBackColor = true;
             this.btnRestartProcesses.Click += new System.EventHandler(this.btnRestartProcesses_Click);
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(79, 283);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(24, 13);
+            this.label1.TabIndex = 23;
+            this.label1.Text = "Idle";
+            // 
+            // labelIdleCpu
+            // 
+            this.labelIdleCpu.AutoSize = true;
+            this.labelIdleCpu.Location = new System.Drawing.Point(180, 283);
+            this.labelIdleCpu.Name = "labelIdleCpu";
+            this.labelIdleCpu.Size = new System.Drawing.Size(29, 13);
+            this.labelIdleCpu.TabIndex = 24;
+            this.labelIdleCpu.Text = "0 ms";
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(258, 283);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(26, 13);
+            this.label12.TabIndex = 25;
+            this.label12.Text = "Avg";
+            // 
+            // rtAvgLabel
+            // 
+            this.rtAvgLabel.AutoSize = true;
+            this.rtAvgLabel.Location = new System.Drawing.Point(388, 283);
+            this.rtAvgLabel.Name = "rtAvgLabel";
+            this.rtAvgLabel.Size = new System.Drawing.Size(29, 13);
+            this.rtAvgLabel.TabIndex = 26;
+            this.rtAvgLabel.Text = "0 ms";
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(493, 283);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(26, 13);
+            this.label13.TabIndex = 27;
+            this.label13.Text = "Avg";
+            // 
+            // taAvgLabel
+            // 
+            this.taAvgLabel.AutoSize = true;
+            this.taAvgLabel.Location = new System.Drawing.Point(611, 283);
+            this.taAvgLabel.Name = "taAvgLabel";
+            this.taAvgLabel.Size = new System.Drawing.Size(29, 13);
+            this.taAvgLabel.TabIndex = 28;
+            this.taAvgLabel.Text = "0 ms";
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Location = new System.Drawing.Point(257, 331);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(32, 13);
+            this.label14.TabIndex = 29;
+            this.label14.Text = "Desv";
+            // 
+            // rtDesvLabel
+            // 
+            this.rtDesvLabel.AutoSize = true;
+            this.rtDesvLabel.Location = new System.Drawing.Point(388, 331);
+            this.rtDesvLabel.Name = "rtDesvLabel";
+            this.rtDesvLabel.Size = new System.Drawing.Size(29, 13);
+            this.rtDesvLabel.TabIndex = 30;
+            this.rtDesvLabel.Text = "0 ms";
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Location = new System.Drawing.Point(493, 331);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(32, 13);
+            this.label15.TabIndex = 31;
+            this.label15.Text = "Desv";
+            // 
+            // taDesvLabel
+            // 
+            this.taDesvLabel.AutoSize = true;
+            this.taDesvLabel.Location = new System.Drawing.Point(611, 331);
+            this.taDesvLabel.Name = "taDesvLabel";
+            this.taDesvLabel.Size = new System.Drawing.Size(29, 13);
+            this.taDesvLabel.TabIndex = 32;
+            this.taDesvLabel.Text = "0 ms";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.taDesvLabel);
+            this.Controls.Add(this.label15);
+            this.Controls.Add(this.rtDesvLabel);
+            this.Controls.Add(this.label14);
+            this.Controls.Add(this.taAvgLabel);
+            this.Controls.Add(this.label13);
+            this.Controls.Add(this.rtAvgLabel);
+            this.Controls.Add(this.label12);
+            this.Controls.Add(this.labelIdleCpu);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.btnRestartProcesses);
             this.Controls.Add(this.label11);
             this.Controls.Add(this.label10);
@@ -333,6 +443,16 @@ namespace Practica
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.Button btnRestartProcesses;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label labelIdleCpu;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.Label rtAvgLabel;
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.Label taAvgLabel;
+        private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.Label rtDesvLabel;
+        private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.Label taDesvLabel;
     }
 }
 
