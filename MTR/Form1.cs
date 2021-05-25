@@ -20,7 +20,6 @@ namespace Practica
         private const int MAX_SCHEDULE_TIME = 15;
 
         private Random rand;
-        private int quantum = 500; // 500ms
         private int actualTime = 0;
         private int idleTime = 0;
 
@@ -69,7 +68,7 @@ namespace Practica
 
         private void BtnStart_Click(object sender, EventArgs e)
         {
-            this.threadProcesses = new Thread(new ThreadStart(this.RunRoundRobin));
+            this.threadProcesses = new Thread(new ThreadStart(this.RunSRT));
             this.threadProcesses.Start();
 
             this.btnStart.Enabled = false;
@@ -90,9 +89,9 @@ namespace Practica
             }
         }
 
-        private void RunRoundRobin()
+        private void RunSRT()
         {
-            Queue<Process> queue = new Queue<Process>();
+            List<Process> actualProcesses = new List<Process>();
             Process p;
 
             UpdateProcessInChartCallback cbChart = new UpdateProcessInChartCallback(this.UpdateProcessInChart);
@@ -103,13 +102,14 @@ namespace Practica
             this.actualTime = 0;
             this.idleTime = 0;
 
+            int i;
             // Tiempo en que se encolará nuevo proceso entre 100 a 1400 ms
             int timeToNewProcess = actualTime + rand.Next(1, MAX_SCHEDULE_TIME) * UNIT_TIME;
 
-            while (this.processes.Count > 0 || queue.Count > 0)
+            while (this.processes.Count > 0 || actualProcesses.Count > 0)
             {
-                p = queue.Count > 0
-                    ? queue.Peek()
+                p = actualProcesses.Count > 0
+                    ? actualProcesses[0]
                     : null;
 
                 if (p != null) // Proceso ejecutandose
@@ -131,17 +131,12 @@ namespace Practica
 
                     if (p.ExecutedTime == p.ExecutionTime) // Proceso Terminado
                     {
-                        p = queue.Dequeue();
+                        p = actualProcesses[0];
+                        actualProcesses.RemoveAt(0);
                         this.Invoke(cbChart, p, Color.White);
 
                         // Calculo Tiempo Tournaround (TiempoTerminaEjecucion - TiempoLLegada)
                         this.Invoke(cbTurnaround, this.actualTime - p.ArrivalTime);
-                    }
-                    else if ((p.ExecutedTime % this.quantum) == 0) // Proceso Bloqueado porqué llegó al límete del Quantum
-                    {
-                        p = queue.Dequeue(); //Se Desencola el proceso actual para darle paso a los demás
-                        this.Invoke(cbChart, p, Color.DarkGreen);
-                        queue.Enqueue(p);
                     }
                 }
                 else // No hubo ningun proceso en la cola de ejecución
@@ -158,9 +153,22 @@ namespace Practica
                         p = this.processes.Dequeue();
                         p.ArrivalTime = this.actualTime;
                         this.Invoke(cbChart, p, Color.MidnightBlue);
-                        queue.Enqueue(p); // Proceso encolado
 
-                        // Tiempo en que se encolará nuevo proceso entre 100 a 1400 ms
+                        for (i = 0; i < actualProcesses.Count; i++)
+                        {
+                            if (p.RemaingTime < actualProcesses[i].RemaingTime)
+                            {
+                                if (i == 0) // El proceso actual será bloqueado porqué llego un proceso con menor tiempo
+                                {
+                                    this.Invoke(cbChart, actualProcesses[0], Color.DarkGreen);
+                                }
+                                break;
+                            }
+                        }
+
+                        actualProcesses.Insert(i, p); // Se inserta ordenado por el tiempo restante de ejecución en la lista de procesos
+
+                        // Tiempo en que se insertará nuevo proceso entre 100 a 1400 ms
                         timeToNewProcess = actualTime + rand.Next(1, MAX_SCHEDULE_TIME) * UNIT_TIME;
                     }
                 }
@@ -178,7 +186,7 @@ namespace Practica
             }
 
             s.Color = c;
-            s.Points[0].SetValueY(p.ExecutionTime - p.ExecutedTime);
+            s.Points[0].SetValueY(p.RemaingTime);
         }
 
         private void UpdateResponseTime(int responseTime)

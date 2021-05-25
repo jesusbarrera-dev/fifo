@@ -12,5 +12,10 @@ namespace Practica
         public int ArrivalTime { get; set; }
         public int ExecutionTime { get; set; }
         public int ExecutedTime { get; set; }
+        public int RemaingTime
+        {
+            get { return this.ExecutionTime - this.ExecutedTime; }
+            private set { }
+        }
     }
 }
