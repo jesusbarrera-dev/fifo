@@ -17,14 +17,20 @@ namespace Practica
         private const int UNIT_TIME = 100; // 100ms
         private const int MAX_PROCESSES = 20;
         private const int MAX_EXECUTION_TIME = 21;
-        private const int MAX_SCHEDULE_TIME = 15;
+        private const int MAX_SCHEDULE_TIME = 9;
 
         private Random rand;
+        private int quantum = 500; // 500ms
         private int actualTime = 0;
         private int idleTime = 0;
 
-        private Thread threadProcesses;
+        private Thread threadMain;
+        private Thread threadForegroundProcesses;
+        private Thread threadBackgrounProcesses;
+
         private Queue<Process> processes;
+        private Queue<Process> foreProcesses;
+        private Queue<Process> backProcesses;
 
         private List<int> responseTimes;
         private List<int> turnaroundTimes;
@@ -34,6 +40,8 @@ namespace Practica
             InitializeComponent();
             this.rand = new Random();
             this.processes = new Queue<Process>();
+            this.foreProcesses = new Queue<Process>();
+            this.backProcesses = new Queue<Process>();
             this.responseTimes = new List<int>();
             this.turnaroundTimes = new List<int>();
 
@@ -44,8 +52,11 @@ namespace Practica
         {
             Process p;
             Series s;
+            string prior;
 
             this.processes.Clear();
+            this.foreProcesses.Clear();
+            this.backProcesses.Clear();
             this.chart1.Series.Clear();
 
             for (int i = 0; i < MAX_PROCESSES; i++)
@@ -54,6 +65,7 @@ namespace Practica
                 {
                     ID = i + 1,
                     ExecutionTime = rand.Next(1, MAX_EXECUTION_TIME) * UNIT_TIME, //Tiempo de ejecución entre 100 y 2000 ms
+                    priority = rand.Next(0, 10), // Prioridad entre 0-9, [0-4] <- Prioridad Alta, [5, 9] <- Prioridad Baja
                 };
 
                 this.processes.Enqueue(p);
@@ -62,19 +74,25 @@ namespace Practica
                 s.Color = Color.White;
                 s.BorderColor = Color.Black;
                 s.Points.Add(p.ExecutionTime);
-                s.Label = p.ID.ToString();
+                prior = p.priority < 5 ? "A" : "B";
+                s.Label = p.ID.ToString() + " (" + prior + ")";
             }
         }
 
         private void BtnStart_Click(object sender, EventArgs e)
         {
-            this.threadProcesses = new Thread(new ThreadStart(this.RunSRT));
-            this.threadProcesses.Start();
+            this.threadMain = new Thread(new ThreadStart(this.RunProcessScheduler));
+            this.threadForegroundProcesses = new Thread(new ThreadStart(this.RunRoundRobin));
+            this.threadBackgrounProcesses = new Thread(new ThreadStart(this.RunFCFS));
+
+            this.threadMain.Start();
+            this.threadForegroundProcesses.Start();
+            this.threadBackgrounProcesses.Start();
 
             this.btnStart.Enabled = false;
         }
 
-        // Al cerrar la ventana se abrotará el hilo
+        // Al cerrar la ventana se abrotarán los hilos
         public void ActionFormClosing(object sender, FormClosingEventArgs e)
         {
             this.KillProcesses();
@@ -82,64 +100,41 @@ namespace Practica
 
         private void KillProcesses()
         {
-            if (this.threadProcesses != null)
+            if (this.threadMain != null)
             {
-                this.threadProcesses.Abort();
-                this.threadProcesses = null;
+                this.threadMain.Abort();
+                this.threadMain = null;
+            }
+            if (this.threadForegroundProcesses != null)
+            {
+                this.threadForegroundProcesses.Abort();
+                this.threadForegroundProcesses = null;
+            }
+            if (this.threadBackgrounProcesses != null)
+            {
+                this.threadBackgrounProcesses.Abort();
+                this.threadBackgrounProcesses = null;
             }
         }
 
-        private void RunSRT()
+        private void RunProcessScheduler()
         {
-            List<Process> actualProcesses = new List<Process>();
             Process p;
 
             UpdateProcessInChartCallback cbChart = new UpdateProcessInChartCallback(this.UpdateProcessInChart);
-            UpdateResponseTimeCallback cbResponse = new UpdateResponseTimeCallback(this.UpdateResponseTime);
-            UpdateTurnaroundTimeCallback cbTurnaround = new UpdateTurnaroundTimeCallback(this.UpdateTurnaroundTime);
             UpdateCpuTimeCallback cbCPU = new UpdateCpuTimeCallback(this.UpdateCpuTime);
 
             this.actualTime = 0;
             this.idleTime = 0;
-
-            int i;
-            // Tiempo en que se encolará nuevo proceso entre 100 a 1400 ms
+            // Tiempo en que se encolará nuevo proceso entre 100 a 800 ms
             int timeToNewProcess = actualTime + rand.Next(1, MAX_SCHEDULE_TIME) * UNIT_TIME;
 
-            while (this.processes.Count > 0 || actualProcesses.Count > 0)
+            while (this.processes.Count > 0 || this.foreProcesses.Count > 0 || this.backProcesses.Count > 0)
             {
-                p = actualProcesses.Count > 0
-                    ? actualProcesses[0]
-                    : null;
-
-                if (p != null) // Proceso ejecutandose
-                {
-                    if (p.ExecutedTime == 0) //Calculo tiempo de respuesta (TiempoPrimeraEjecucion - TiempoLlegada)
-                    {
-                        this.Invoke(cbResponse, this.actualTime - p.ArrivalTime);
-                    }
-
-                    this.Invoke(cbChart, p, Color.Red);
-                }
-
                 Thread.Sleep(UNIT_TIME);
                 this.actualTime += UNIT_TIME;
 
-                if (p != null)
-                {
-                    p.ExecutedTime += UNIT_TIME; // Actualización del tiempo de ejecución del proceso actual
-
-                    if (p.ExecutedTime == p.ExecutionTime) // Proceso Terminado
-                    {
-                        p = actualProcesses[0];
-                        actualProcesses.RemoveAt(0);
-                        this.Invoke(cbChart, p, Color.White);
-
-                        // Calculo Tiempo Tournaround (TiempoTerminaEjecucion - TiempoLLegada)
-                        this.Invoke(cbTurnaround, this.actualTime - p.ArrivalTime);
-                    }
-                }
-                else // No hubo ningun proceso en la cola de ejecución
+                if (this.foreProcesses.Count == 0 && this.backProcesses.Count == 0) // No hay ningun proceso en ninguna de las colas
                 {
                     this.idleTime += UNIT_TIME;
                 }
@@ -154,27 +149,115 @@ namespace Practica
                         p.ArrivalTime = this.actualTime;
                         this.Invoke(cbChart, p, Color.MidnightBlue);
 
-                        for (i = 0; i < actualProcesses.Count; i++)
+                        if (p.priority < 5) // Prioridad Alta, se manda a la cola con Round Robin
                         {
-                            if (p.RemaingTime < actualProcesses[i].RemaingTime)
-                            {
-                                if (i == 0) // El proceso actual será bloqueado porqué llego un proceso con menor tiempo
-                                {
-                                    this.Invoke(cbChart, actualProcesses[0], Color.DarkGreen);
-                                }
-                                break;
-                            }
+                            this.foreProcesses.Enqueue(p);
+                        }
+                        else // Prioridad Baja, se manda a la cola con FCFS
+                        {
+                            this.backProcesses.Enqueue(p);
                         }
 
-                        actualProcesses.Insert(i, p); // Se inserta ordenado por el tiempo restante de ejecución en la lista de procesos
-
-                        // Tiempo en que se insertará nuevo proceso entre 100 a 1400 ms
+                        // Tiempo en que se encolará nuevo proceso entre 100 a 800 ms
                         timeToNewProcess = actualTime + rand.Next(1, MAX_SCHEDULE_TIME) * UNIT_TIME;
                     }
                 }
             }
         }
 
+        private void RunRoundRobin()
+        {
+            Process p;
+
+            UpdateProcessInChartCallback cbChart = new UpdateProcessInChartCallback(this.UpdateProcessInChart);
+            UpdateResponseTimeCallback cbResponse = new UpdateResponseTimeCallback(this.UpdateResponseTime);
+            UpdateTurnaroundTimeCallback cbTurnaround = new UpdateTurnaroundTimeCallback(this.UpdateTurnaroundTime);
+
+            // Tiempo en que se encolará nuevo proceso entre 100 a 1400 ms
+            int timeToNewProcess = actualTime + rand.Next(1, MAX_SCHEDULE_TIME) * UNIT_TIME;
+
+            while (this.processes.Count > 0 || this.foreProcesses.Count > 0)
+            {
+                p = this.foreProcesses.Count > 0
+                    ? this.foreProcesses.Peek()
+                    : null;
+
+                if (p != null) // Proceso ejecutandose
+                {
+                    if (p.ExecutedTime == 0) //Calculo tiempo de respuesta (TiempoPrimeraEjecucion - TiempoLlegada)
+                    {
+                        this.Invoke(cbResponse, this.actualTime - p.ArrivalTime);
+                    }
+
+                    this.Invoke(cbChart, p, Color.Red);
+
+                }
+
+                Thread.Sleep(UNIT_TIME);
+
+                if (p != null)
+                {
+                    p.ExecutedTime += UNIT_TIME; // Actualización del tiempo de ejecución del proceso actual
+
+                    if (p.ExecutedTime == p.ExecutionTime) // Proceso Terminado
+                    {
+                        p = this.foreProcesses.Dequeue();
+                        this.Invoke(cbChart, p, Color.White);
+
+                        // Calculo Tiempo Tournaround (TiempoTerminaEjecucion - TiempoLLegada)
+                        this.Invoke(cbTurnaround, this.actualTime - p.ArrivalTime);
+                    }
+                    else if ((p.ExecutedTime % this.quantum) == 0) // Proceso Bloqueado porqué llegó al límete del Quantum
+                    {
+                        p = this.foreProcesses.Dequeue(); //Se Desencola el proceso actual para darle paso a los demás
+                        this.Invoke(cbChart, p, Color.DarkGreen);
+                        this.foreProcesses.Enqueue(p);
+                    }
+                }
+            }
+        }
+
+        private void RunFCFS()
+        {
+            Process p;
+
+            UpdateProcessInChartCallback cbChart = new UpdateProcessInChartCallback(this.UpdateProcessInChart);
+            UpdateResponseTimeCallback cbResponse = new UpdateResponseTimeCallback(this.UpdateResponseTime);
+            UpdateTurnaroundTimeCallback cbTurnaround = new UpdateTurnaroundTimeCallback(this.UpdateTurnaroundTime);
+
+            while (this.processes.Count > 0 || this.backProcesses.Count > 0)
+            {
+                p = this.backProcesses.Count > 0
+                    ? this.backProcesses.Peek()
+                    : null;
+
+                if (p != null) // Proceso ejecutandose
+                {
+                    if (p.ExecutedTime == 0) //Calculo tiempo de respuesta (TiempoPrimeraEjecucion - TiempoLlegada)
+                    {
+                        this.Invoke(cbResponse, this.actualTime - p.ArrivalTime);
+                    }
+
+                    this.Invoke(cbChart, p, Color.Red);
+                }
+
+                Thread.Sleep(UNIT_TIME);
+
+                if (p != null)
+                {
+                    p.ExecutedTime += UNIT_TIME; // Actualización del tiempo de ejecución del proceso actual
+
+                    if (p.ExecutedTime == p.ExecutionTime) // Proceso Terminado
+                    {
+                        p = this.backProcesses.Dequeue();
+                        this.Invoke(cbChart, p, Color.White);
+
+                        // Calculo Tiempo Tournaround (TiempoTerminaEjecucion - TiempoLLegada)
+                        this.Invoke(cbTurnaround, this.actualTime - p.ArrivalTime);
+                    }
+                }
+            }
+        }
 
         private void UpdateProcessInChart(Process p, Color c)
         {
