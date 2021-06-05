@@ -17,7 +17,7 @@ namespace Practica
         private const int UNIT_TIME = 100; // 100ms
         private const int MAX_PROCESSES = 20;
         private const int MAX_EXECUTION_TIME = 21;
-        private const int MAX_SCHEDULE_TIME = 15;
+        private const int MAX_SCHEDULE_TIME = 10;
 
         private Random rand;
         private int actualTime = 0;
@@ -68,7 +68,7 @@ namespace Practica
 
         private void BtnStart_Click(object sender, EventArgs e)
         {
-            this.threadProcesses = new Thread(new ThreadStart(this.RunSRT));
+            this.threadProcesses = new Thread(new ThreadStart(this.RunSJF));
             this.threadProcesses.Start();
 
             this.btnStart.Enabled = false;
@@ -89,7 +89,7 @@ namespace Practica
             }
         }
 
-        private void RunSRT()
+        private void RunSJF()
         {
             List<Process> actualProcesses = new List<Process>();
             Process p;
@@ -103,7 +103,7 @@ namespace Practica
             this.idleTime = 0;
 
             int i;
-            // Tiempo en que se encolará nuevo proceso entre 100 a 1400 ms
+            // Tiempo en que se encolará nuevo proceso entre 100 a 900 ms
             int timeToNewProcess = actualTime + rand.Next(1, MAX_SCHEDULE_TIME) * UNIT_TIME;
 
             while (this.processes.Count > 0 || actualProcesses.Count > 0)
@@ -145,7 +145,7 @@ namespace Practica
                 }
 
                 this.Invoke(cbCPU);
-
+                
                 if (this.actualTime == timeToNewProcess) // Llega nuevo proceso
                 {
                     if (this.processes.Count > 0)
@@ -154,13 +154,14 @@ namespace Practica
                         p.ArrivalTime = this.actualTime;
                         this.Invoke(cbChart, p, Color.MidnightBlue);
 
+                        // Se busca el indice de la lista en la que se va a insertar
                         for (i = 0; i < actualProcesses.Count; i++)
                         {
-                            if (p.RemaingTime < actualProcesses[i].RemaingTime)
+                            if (p.ExecutionTime < actualProcesses[i].ExecutionTime)
                             {
-                                if (i == 0) // El proceso actual será bloqueado porqué llego un proceso con menor tiempo
+                                if (i == 0) // Se aumenta el indice para no quitar el proceso que se esta ejecutando actualmente
                                 {
-                                    this.Invoke(cbChart, actualProcesses[0], Color.DarkGreen);
+                                    continue;
                                 }
                                 break;
                             }
@@ -168,7 +169,7 @@ namespace Practica
 
                         actualProcesses.Insert(i, p); // Se inserta ordenado por el tiempo restante de ejecución en la lista de procesos
 
-                        // Tiempo en que se insertará nuevo proceso entre 100 a 1400 ms
+                        // Tiempo en que se insertará nuevo proceso entre 100 a 900 ms
                         timeToNewProcess = actualTime + rand.Next(1, MAX_SCHEDULE_TIME) * UNIT_TIME;
                     }
                 }
